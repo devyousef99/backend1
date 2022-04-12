@@ -16,29 +16,6 @@ from django.views.decorators.csrf import csrf_exempt
 @api_view(['GET'])
 def get_cart_usr(request,pk):
     if request.method == 'GET':
-        # user_profile = get_object_or_404(Profile, user=request.user)
-        # print(user_profile)
-        # order = Order.objects.get_or_create(owner=user_profile, is_ordered=False)
-        # print(order)
-        # usr = get_object_or_404(Profile, user=request.user)
-        # item = Product.objects
-        # print(item)
-        #order_item = OrderItem.objects.get(items=item)
-        #usr_order = Order.objects.get_or_create(owner=usr, is_ordered=False)
-        #item.items().add(order_item)
-        #order.refrence.add(order_item)
-
-        # order = Order.objects.get(
-        #     owner=request.user.profile, is_ordered=False)
-        # item = Product.objects.filter(pk=pk).first()
-        # order_item= OrderItem.objects.filter(
-        # product=item
-        # )
-        # order.refrence.add(order_item)
-        # if order.refrence.filter(id=pk).exists():
-        #     order_item.quantity += 1
-        #     order_item.save()
-        # context = {'object': order}
         user_profile = get_object_or_404(Profile, user=pk)
         order = Order.objects.filter(owner=user_profile, is_ordered=False).first()
         if order is None:
@@ -51,18 +28,20 @@ def get_cart_usr(request,pk):
 @csrf_exempt
 def add_to_cart(request, pk):
     item = get_object_or_404(Product, id=pk)
+    print(item)
     order = Order.objects.filter(owner=request.user.profile, is_ordered=False).first()
+    print(order)
     order_item = OrderItem.objects.filter(
         product=item,
         refrence_id=order.id
     )
+    print(order_item)
     serializer = OrdrItemSerializer(data=order_item)
     serializer.is_valid(raise_exception=False)
+    print(order_item)
     if order_item.exists():
-        serializer.update()
-        # order_item.update()
-        # order_item.quantity +=1
-        # order_item.save()
+        order_item.quantity +=1
+        order_item.save()
         return Response(serializer.data)
     else:
         order_item.add(item)

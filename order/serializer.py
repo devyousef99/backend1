@@ -3,7 +3,6 @@ from .models import *
 from product.serializer import *
 
 
-
 class OrdrItemSerializer(serializers.ModelSerializer):
     items = createPRODUCTSerializer(read_only=True, many=True)
     product = ProductName(read_only=True, many=True)

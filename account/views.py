@@ -23,7 +23,7 @@ class TestLoginAppView(ObtainAuthToken):
         user = Profile.objects.filter(username=request.data, password=request.data).all()
         sz.is_valid()
         if user.exists():
-            return Response(status=status.HTTP_200_OK)
+            return Response(sz.data)
         return Response(sz.errors)
 
 
