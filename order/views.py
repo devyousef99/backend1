@@ -5,7 +5,7 @@ from typing import OrderedDict
 from django.shortcuts import get_object_or_404, render
 from rest_framework.decorators import api_view
 from account.models import *
-from order.serializer import OrderSerializer, OrdrItemSerializer
+from order.serializer import OrdrItemSerializer
 from product.serializer import *
 from rest_framework.response import Response
 from .models import *

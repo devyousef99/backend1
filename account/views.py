@@ -16,15 +16,23 @@ def register_view(request):
             return Response(serializer.data)
     return Response(serializer.errors)
 
+# class TestLoginAppView(ObtainAuthToken):
+#     def get(self, request):
+#         sz = UserSerializer(data=request.data)
+#         user = Profile.objects.filter(username=request.data, password=request.data).all()
+#         sz.is_valid()
+#         if user.exists():
+#             return Response(sz.data)
+#         return Response(sz.errors)
 
-class TestLoginAppView(ObtainAuthToken):
-    def get(self, request):
-        sz = UserSerializer(data=request.data)
-        user = Profile.objects.filter(username=request.data, password=request.data).all()
-        sz.is_valid()
-        if user.exists():
-            return Response(sz.data)
-        return Response(sz.errors)
+@api_view(['GET'])
+def get(request):
+    sz = UserSerializer(data=request.data)
+    user = Usr.objects.filter(username=request.data, password=request.data).all()
+    sz.is_valid()
+    if user.exists():
+        return Response(sz.data)
+    return Response(sz.data)
 
 
 @api_view(['GET'])
